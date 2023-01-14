@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slider</title>
+    <style>
+        p {
+            position: absolute;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div slider>
+        <p>
+            <img src="../imgs/flamengo.png" alt="Mengão" width="672" height="800" title="Escudo Fla" />
+        </p>
+
+        <p>
+            <img src="../imgs/560cd4a8858830250ea5_zoom.png" alt="logo-santos" width="800" height="800" />
+        </p>
+
+        <p>
+            <img src="../imgs/df3d3b82f7264d03b5b1_zoom.png" alt="Cruzeiro" width="800" height="800" />
+        </p>
+
+        <p>
+            <img src="../imgs/Barcelona-logo-escudo.png" alt="barcelona-logo" width="800" height="900" />
+        </p>
+    </div>
+
+    <script>
+        function mover(elem, inicio, fim, passo, callback) {
+            const novoInicio = inicio - passo;
+            if (novoInicio >= fim) {
+                elem.style.left = novoInicio + "px";
+                setTimeout(() => mover(elem, novoInicio, fim, passo, callback), 7);
+            } else {
+                callback();
+            }
+        }
+
+        function slider() {
+            const elementos = document.querySelectorAll("[slider] > p");
+            const slides = Array.from(elementos);
+            exibirSlide(slides, slides[0]);
+        }
+
+        function exibirSlide(slides, slide) {
+            slide.style.display = "block";
+
+            const inicio = innerWidth;
+            const fim = -slide.clientWidth;
+
+            slide.style.left = `${inicio}px`;
+
+            mover(slide, inicio, fim, 5, () => {
+                exibirSlide(slides, getProximo(slides, slide));
+            });
+        }
+
+        function getProximo(lista, atual) {
+            const i = lista.indexOf(atual) + 1;
+            return i < lista.length ? lista[i] : lista[0];
+        }
+
+        slider();
+    </script>
+</body>
+
+</html>
